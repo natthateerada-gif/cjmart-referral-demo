@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Prompt:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --yellow: #FFD700;
+    --yellow-dark: #F5C800;
+    --green: #2E9E3A;
+    --green-dark: #227A2C;
+    --red: #D42B2B;
+    --blue: #1A3A8C;
+    --dark: #1A1A1A;
+    --text: #2D2D2D;
+    --light-bg: #FFFDE7;
+    --card-bg: #FFFFFF;
+    --border: #E8D800;
+  }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--light-bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--green);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .topbar-logo {
+    width: 60px; height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  /* SVG LOGO INLINE */
+  .logo-box {
+    width: 64px; height: 64px;
+    background: var(--yellow);
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .logo-top {
+    flex: 1;
+    background: var(--yellow);
+    display: flex; align-items: center; justify-content: center;
+    padding: 6px;
+  }
+  .logo-bottom {
+    background: var(--green);
+    color: #fff;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-align: center;
+    padding: 4px 0;
+  }
+  .logo-svg { width: 42px; height: 32px; }
+
+  .topbar-text { color: #fff; }
+  .topbar-text h2 {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 700; font-size: 16px;
+    line-height: 1.3;
+  }
+  .topbar-text p { font-size: 12px; opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    background: var(--yellow);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  .hero-banner {
+    width: 100%;
+    display: block;
+    max-height: 200px;
+    object-fit: cover;
+    object-position: center;
+  }
+  .hero-banner-placeholder {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 40%, var(--yellow) 100%);
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 60px 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Store illustration */
+  .store-block {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 55%;
+    background: var(--green-dark);
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .store-front {
+    background: var(--yellow);
+    width: 180px; height: 110px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    margin-left: -20px;
+  }
+  .store-front::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 28px;
+    background: var(--green);
+    border-radius: 4px 4px 0 0;
+  }
+  .store-sign {
+    position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+    background: var(--yellow); border-radius: 3px;
+    width: 80px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Prompt',sans-serif; font-weight: 800; font-size: 8px; color: var(--green-dark);
+    letter-spacing: 0.5px;
+  }
+  .store-windows {
+    position: absolute; bottom: 0; left: 0; right: 0; top: 28px;
+    display: flex; gap: 6px; padding: 8px;
+  }
+  .store-window {
+    flex: 1; background: rgba(100,200,255,0.3);
+    border: 1px solid rgba(255,255,255,0.4); border-radius: 2px;
+  }
+  .hero-tagline {
+    position: relative; z-index: 2;
+    text-align: right;
+  }
+  .hero-tagline .come { font-family: 'Prompt',sans-serif; font-weight: 800; font-size: 26px; color: #fff; }
+  .hero-tagline .part { font-family: 'Prompt',sans-serif; font-weight: 800; font-size: 26px; color: var(--yellow); }
+
+  /* HERO CONTENT BELOW */
+  .hero-content {
+    background: var(--yellow);
+    padding: 28px 24px 36px;
+    text-align: center;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    padding: 6px 20px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+  }
+  .hero-content h1 {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 800;
+    font-size: clamp(24px, 5vw, 42px);
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .hero-content h1 span { color: var(--red); }
+  .hero-content p {
+    color: rgba(0,0,0,0.65);
+    font-size: 15px;
+    max-width: 460px;
+    margin: 0 auto 24px;
+    line-height: 1.7;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 40px;
+    border-radius: 50px;
+    border: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(46,158,58,0.35);
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(46,158,58,0.45); }
+
+  /* SALARY BANNER */
+  .salary-banner {
+    background: var(--green);
+    color: #fff;
+    text-align: center;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .salary-banner .label { font-size: 15px; opacity: 0.9; }
+  .salary-banner .amount {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    color: var(--yellow);
+  }
+  .salary-banner .sub { font-size: 14px; opacity: 0.75; }
+
+  /* CONTAINER */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--dark);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--yellow), transparent);
+    border-radius: 2px;
+  }
+
+  /* JOBS SECTION */
+  .jobs-section { padding: 50px 0 0; }
+  .job-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 2px solid var(--yellow);
+    margin-bottom: 24px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .job-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(46,158,58,0.15); }
+  .job-header {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .job-icon {
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .job-header h2 {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+  }
+  .job-body { padding: 24px; }
+  .job-col-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media(max-width: 560px){ .job-col-wrap { grid-template-columns: 1fr; } }
+
+  .info-block h3 {
+    font-family: 'Prompt', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--green-dark);
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 2px solid var(--yellow);
+    padding-bottom: 6px;
+  }
+  .info-block ul { list-style: none; }
+  .info-block ul li {
+    font-size: 15px;
+    color: var(--text);
+    padding: 5px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.6;
+  }
+  .info-block ul li::before {
+    content: '▸';
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 12px;
+  }
+
+  /* BENEFITS */
+  .benefits-section { padding: 40px 0; }
+  .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media(max-width: 560px){ .benefits-grid { grid-template-columns: 1fr 1fr; } }
+  .benefit-card {
+    background: var(--card-bg);
+    border: 2px solid var(--yellow);
+    border-radius: 14px;
+    padding: 22px 16px;
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .benefit-card:hover {
+    border-color: var(--green);
+    box-shadow: 0 4px 20px rgba(46,158,58,0.15);
+    transform: translateY(-2px);
+  }
+  .benefit-card .icon { font-size: 32px; margin-bottom: 10px; }
+  .benefit-card p { font-size: 14px; font-weight: 600; color: var(--dark); line-height: 1.6; }
+  .benefit-card strong { color: var(--green-dark); }
+
+  /* FORM SECTION */
+  .form-section { padding: 40px 0 60px; }
+  .form-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 2px solid var(--yellow);
+    padding: 36px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+  }
+  @media(max-width:560px){ .form-card { padding: 20px; } }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media(max-width: 560px){ .form-grid { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .form-group label .req { color: var(--red); }
+  .form-group input, .form-group select, .form-group textarea {
+    border: 2px solid #E8E0A0;
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: #FAFDF0;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--green);
+    background: #fff;
+  }
+  .form-group textarea { min-height: 90px; resize: vertical; }
+
+  .radio-group { display: flex; gap: 16px; flex-wrap: wrap; }
+  .radio-group label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; cursor: pointer; font-weight: 400; color: var(--text);
+  }
+  .radio-group input[type="radio"] { accent-color: var(--green); width: 16px; height: 16px; }
+
+  .consent-box {
+    background: #F9FFE6;
+    border: 1.5px solid #C8E86A;
+    border-radius: 12px;
+    padding: 18px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.8;
+    max-height: 140px;
+    overflow-y: auto;
+    margin-top: 4px;
+  }
+  .consent-check {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; font-weight: 600; color: var(--dark);
+    cursor: pointer; margin-top: 12px;
+  }
+  .consent-check input[type="checkbox"] { accent-color: var(--green); width: 18px; height: 18px; }
+
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+    color: #fff;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: opacity 0.2s, transform 0.2s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px rgba(46,158,58,0.3);
+  }
+  .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+
+  /* SUCCESS */
+  .success-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+    align-items: center; justify-content: center;
+  }
+  .success-overlay.show { display: flex; }
+  .success-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 48px 36px;
+    text-align: center;
+    max-width: 380px; width: 90%;
+    animation: popIn 0.3s ease;
+    border-top: 6px solid var(--green);
+  }
+  @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .success-box .check { font-size: 56px; margin-bottom: 16px; }
+  .success-box h3 { font-family: 'Prompt', sans-serif; font-weight: 700; font-size: 22px; color: var(--dark); margin-bottom: 10px; }
+  .success-box p { color: #666; font-size: 15px; line-height: 1.7; margin-bottom: 24px; }
+  .success-box button {
+    background: var(--green); color: #fff; border: none; border-radius: 10px;
+    padding: 12px 32px; font-family: 'Prompt', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--green-dark);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .footer-logo-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 4px;
+  }
+  .footer-logo-box {
+    width: 44px; height: 44px;
+    background: var(--yellow);
+    border-radius: 7px;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .footer-logo-top { flex: 1; background: var(--yellow); display: flex; align-items: center; justify-content: center; padding: 3px; }
+  .footer-logo-bottom { background: var(--green); color: #fff; font-family: 'Prompt',sans-serif; font-weight: 800; font-size: 8px; letter-spacing: 2px; text-align: center; padding: 2px 0; }
+  footer span { color: var(--yellow); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo-box">
+    <div class="logo-top">
+      <svg class="logo-svg" viewBox="0 0 60 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- C shape -->
+        <path d="M28 6C15 6 6 14 6 22C6 30 15 38 28 38C34 38 39 36 43 32" stroke="#D42B2B" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <!-- J shape -->
+        <path d="M42 8L42 30C42 36 38 40 32 40" stroke="#1A3A8C" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <circle cx="42" cy="5" r="5" fill="#1A3A8C"/>
+        <text x="36" y="3" font-family="Arial" font-weight="bold" font-size="6" fill="#1A3A8C">ซีเจ</text>
+      </svg>
+    </div>
+    <div class="logo-bottom">MART</div>
+  </div>
+  <div class="topbar-text">
+    <h2>CJ Mart ซีเจ มาร์ท</h2>
+    <p>บริษัท ซีเจ มาร์ท จำกัด | กลุ่มคาราบาว</p>
+  </div>
+</div>
+
+<!-- HERO BANNER -->
+<div class="hero">
+  <div class="hero-banner-placeholder">
+    <div class="store-block">
+      <div class="store-front">
+        <div class="store-sign">CJ ซีเจ MART</div>
+        <div class="store-windows">
+          <div class="store-window"></div>
+          <div class="store-window"></div>
+          <div class="store-window"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-tagline">
+      <div class="come">COME TO BE</div>
+      <div class="part">A PART OF US</div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">🤝 โครงการพิเศษ</div>
+    <h1>เพื่อนแนะนำเพื่อน<br><span>มาร่วมงานกับเรา</span></h1>
+    <p>แนะนำเพื่อน ครอบครัว หรือคนรู้จัก มาร่วมเป็นส่วนหนึ่งของ CJ Mart กลุ่มคาราบาว</p>
+    <button class="hero-cta" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth'})">สมัครเลย ↓</button>
+  </div>
+</div>
+
+<!-- SALARY BANNER -->
+<div class="salary-banner">
+  <span class="label">💰 รายได้รวม</span>
+  <span class="amount">15,000 บาท</span>
+  <span class="sub">/ เดือน + สวัสดิการครบ</span>
+</div>
+
+<!-- JOBS -->
+<div class="container">
+  <div class="jobs-section">
+    <div class="section-title">ตำแหน่งงานที่เปิดรับ</div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div class="job-icon">📣</div>
+        <h2>1. เจ้าหน้าที่กิจกรรมร้านค้า</h2>
+      </div>
+      <div class="job-body">
+        <div class="job-col-wrap">
+          <div class="info-block">
+            <h3>📋 ลักษณะงาน</h3>
+            <ul>
+              <li>ออกบูธประชาสัมพันธ์ และแจกใบปลิว</li>
+              <li>โฟนไมค์เชียร์ขายสินค้าหน้าสาขา</li>
+              <li>เชิญชวนลูกค้าสมัครบัตรสมาชิก</li>
+            </ul>
+          </div>
+          <div class="info-block">
+            <h3>✅ คุณสมบัติ</h3>
+            <ul>
+              <li>ไม่จำกัดวุฒิการศึกษา</li>
+              <li>เดินทางต่างจังหวัดได้ 7–14 วัน</li>
+              <li>กล้าแสดงออก โฟนไมค์ได้</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div class="job-icon">📦</div>
+        <h2>2. เจ้าหน้าที่จัดเรียงสินค้า</h2>
+      </div>
+      <div class="job-body">
+        <div class="job-col-wrap">
+          <div class="info-block">
+            <h3>📋 ลักษณะงาน</h3>
+            <ul>
+              <li>ติดตั้งอุปกรณ์ภายในสาขา และจัดเรียงสินค้าตามแพลนโนแกรม</li>
+              <li>ติดตั้งสื่อประชาสัมพันธ์ภายในร้าน</li>
+              <li>งานอื่นๆ ตามมอบหมาย เช่น ชงเครื่องดื่ม Bao Café</li>
+            </ul>
+          </div>
+          <div class="info-block">
+            <h3>✅ คุณสมบัติ</h3>
+            <ul>
+              <li>ไม่จำกัดวุฒิการศึกษา</li>
+              <li>เดินทางต่างจังหวัดได้ 7–14 วัน</li>
+              <li>ขับรถยนต์ได้ มีใบขับขี่</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="benefits-section">
+    <div class="section-title">สวัสดิการและค่าตอบแทน</div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="icon">💰</div>
+        <p>รายได้รวม<br><strong>15,000 บาท/เดือน</strong></p>
+      </div>
+      <div class="benefit-card">
+        <div class="icon">🏖️</div>
+        <p>วันหยุดพักผ่อน<br><strong>ประจำปี</strong></p>
+      </div>
+      <div class="benefit-card">
+        <div class="icon">🏥</div>
+        <p>ประกันสังคม<br><strong>ครบถ้วน</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-section" id="form-section">
+    <div class="section-title">กรอกใบสมัคร</div>
+    <div class="form-card">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>คำนำหน้า <span class="req">*</span></label>
+          <select id="prefix">
+            <option value="">-- เลือก --</option>
+            <option>นาย</option>
+            <option>นาง</option>
+            <option>นางสาว</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>ชื่อ-นามสกุล <span class="req">*</span></label>
+          <input type="text" id="fullname" placeholder="ชื่อ นามสกุล">
+        </div>
+
+        <div class="form-group">
+          <label>อายุ <span class="req">*</span></label>
+          <input type="number" id="age" placeholder="อายุ (ปี)" min="18" max="60">
+        </div>
+
+        <div class="form-group">
+          <label>เบอร์โทรศัพท์ <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="08X-XXX-XXXX">
+        </div>
+
+        <div class="form-group">
+          <label>ID Line <span class="req">*</span></label>
+          <input type="text" id="line" placeholder="ไอดีไลน์">
+        </div>
+
+        <div class="form-group">
+          <label>จังหวัดที่ต้องการสมัคร <span class="req">*</span></label>
+          <input type="text" id="province" placeholder="จังหวัด">
+        </div>
+
+        <div class="form-group full">
+          <label>ที่อยู่ปัจจุบัน</label>
+          <input type="text" id="address" placeholder="บ้านเลขที่ ถนน ตำบล อำเภอ จังหวัด">
+        </div>
+
+        <div class="form-group full">
+          <label>ประสบการณ์ทำงาน <span class="req">*</span></label>
+          <textarea id="experience" placeholder="เคยทำงานที่ไหนมาบ้าง อธิบายพอเข้าใจ"></textarea>
+        </div>
+
+        <div class="form-group full">
+          <label>ใบขับขี่รถยนต์ <span class="req">*</span></label>
+          <div class="radio-group">
+            <label><input type="radio" name="license" value="มี"> มี</label>
+            <label><input type="radio" name="license" value="ไม่มี"> ไม่มี</label>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label>เคยต้องคดี จำคุก หรือถูกฟ้องศาลหรือไม่ <span class="req">*</span></label>
+          <div class="radio-group">
+            <label><input type="radio" name="criminal" value="เคย"> เคย</label>
+            <label><input type="radio" name="criminal" value="ไม่เคย"> ไม่เคย</label>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label>ชื่อ-นามสกุล ผู้แนะนำ <span class="req">*</span></label>
+          <input type="text" id="referrer" placeholder="ชื่อเพื่อนที่แนะนำมา">
+        </div>
+
+        <div class="form-group full">
+          <label>ความยินยอมข้อมูลส่วนบุคคล (PDPA)</label>
+          <div class="consent-box">
+            ข้าพเจ้าให้ความยินยอมแก่บริษัท ซีเจ มาร์ท จำกัด ("บริษัทฯ") บริษัทในกลุ่มคาราบาว ได้แก่ บริษัท คาราบาวตะวันแดง จำกัด บริษัท ตะวันแดง ดีซีเอ็ม จำกัด บริษัท เอเชียแปซิฟิกกลาส จำกัด เป็นต้น และบริษัทในกลุ่มซีเจ ได้แก่ บริษัท ซี.เจ. เอ็กซ์เพรส กรุ๊ป จำกัด เป็นต้น ในการเก็บรวบรวม ใช้ และ/หรือเปิดเผยข้อมูลส่วนบุคคลที่ละเอียดอ่อน ได้แก่ ข้อมูลสุขภาพ เพื่อพิจารณาคัดกรองประวัติในการรับสมัครงาน ประวัติอาชญากรรม เพื่อพิจารณาคัดกรองประวัติ และข้อมูลชีวภาพ เพื่อการบันทึกเวลาทำงาน ตามที่ได้ระบุไว้ในนโยบายคุ้มครองข้อมูลส่วนบุคคลสำหรับบุคลากร ทั้งนี้ การปฏิเสธหรือการถอนความยินยอมอาจส่งผลกระทบต่อกระบวนการจ้างงาน
+          </div>
+          <label class="consent-check">
+            <input type="checkbox" id="consent">
+            ข้าพเจ้ายอมรับและให้ความยินยอม
+          </label>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitForm()">📨 ส่งใบสมัคร</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo-row">
+    <div class="footer-logo-box">
+      <div class="footer-logo-top">
+        <svg width="28" height="20" viewBox="0 0 60 44" fill="none">
+          <path d="M28 6C15 6 6 14 6 22C6 30 15 38 28 38C34 38 39 36 43 32" stroke="#D42B2B" stroke-width="8" stroke-linecap="round" fill="none"/>
+          <path d="M42 8L42 30C42 36 38 40 32 40" stroke="#1A3A8C" stroke-width="8" stroke-linecap="round" fill="none"/>
+          <circle cx="42" cy="5" r="5" fill="#1A3A8C"/>
+        </svg>
+      </div>
+      <div class="footer-logo-bottom">MART</div>
+    </div>
+    <span style="color:#fff; font-family:'Prompt',sans-serif; font-weight:700; font-size:16px;">CJ Mart</span>
+  </div>
+  <div>© บริษัท ซีเจ มาร์ท จำกัด | กลุ่ม <span>คาราบาว</span> | โครงการเพื่อนแนะนำเพื่อนมาทำงาน</div>
+</footer>
+
+<!-- SUCCESS MODAL -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div class="check">✅</div>
+    <h3>ส่งใบสมัครสำเร็จ!</h3>
+    <p>ขอบคุณที่สนใจร่วมงานกับ CJ Mart<br>เจ้าหน้าที่จะติดต่อกลับผ่านเบอร์โทรหรือ Line ที่ระบุไว้</p>
+    <button onclick="document.getElementById('successOverlay').classList.remove('show')">ปิด</button>
+  </div>
+</div>
+
+<script>
+function submitForm() {
+  const prefix = document.getElementById('prefix').value;
+  const fullname = document.getElementById('fullname').value.trim();
+  const age = document.getElementById('age').value;
+  const phone = document.getElementById('phone').value.trim();
+  const line = document.getElementById('line').value.trim();
+  const province = document.getElementById('province').value.trim();
+  const experience = document.getElementById('experience').value.trim();
+  const referrer = document.getElementById('referrer').value.trim();
+  const license = document.querySelector('input[name="license"]:checked');
+  const criminal = document.querySelector('input[name="criminal"]:checked');
+  const consent = document.getElementById('consent').checked;
+
+  if (!prefix || !fullname || !age || !phone || !line || !province || !experience || !referrer || !license || !criminal) {
+    alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน');
+    return;
+  }
+  if (!consent) {
+    alert('กรุณายอมรับความยินยอมข้อมูลส่วนบุคคล');
+    return;
+  }
+  document.getElementById('successOverlay').classList.add('show');
+}
+</script>
+</body>
+</html>
